@@ -1,0 +1,195 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Получение курса валют с сайта ЦБ",
+        "contact": {
+            "email": "ilnur.worker@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost/api/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Курс валют"
+        }
+    ],
+    "paths": {
+        "/exchange-rate": {
+            "put": {
+                "tags": [
+                    "Курс валют"
+                ],
+                "summary": "Курс валюты с сайта ЦБ",
+                "description": "Получение курса заданной валютной пары с сайта ЦБ",
+                "operationId": "getCurrencyPairExchangeRate",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "needle_currency",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Глава валюта пары",
+                        "required": true,
+                        "example": "USD"
+                    },
+                    {
+                        "in": "query",
+                        "name": "base_currency",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Базовая валюта",
+                        "example": "RUR"
+                    },
+                    {
+                        "in": "query",
+                        "name": "date",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Дата на которую требуется получить курс валют",
+                        "example": "05.05.2023"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный запрос",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Курс валюты"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "today": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "value": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 61.9997
+                                                        },
+                                                        "ticker": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 61.9997
+                                                        }
+                                                    }
+                                                },
+                                                "yesterday": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "value": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 61.9997
+                                                        },
+                                                        "ticker": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 61.9997
+                                                        }
+                                                    }
+                                                },
+                                                "difference": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 0
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ошибка валидации"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "query_param_name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "example": "Критерий/ии валидации"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка на стороне сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Непредвиденная ошибка, попробуйте позже"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "502": {
+                        "description": "Сервер получил с сайта ЦБ непредвиденный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "Ошибка при получении данных с сайта cbr.ru"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Сервер не может получить данные с сайта cbr.ru",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "default": "Нет связи с сайтом ЦБ"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
