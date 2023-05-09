@@ -27,30 +27,30 @@
 - `TIMEZONE='Europe/Moscow'` - указать текущий часовой пояс
 
 Для установки проекта требуется выполнить команду `make install` в случае Linux/MacOS.
+После завершения работы команды в консоли можно запустить приложение командой
+`docker compose up` или `docker compose up -d`
+
 В случае использования Windows, проделать команды ниже поочередно:
 ```
-	docker compose build
-	docker compose run --rm php composer install
-    docker compose run --rm php php artisan key:generate
-    docker compose run --rm php artisan storage:link
-	docker compose up -d
-	docker compose exec php php artisan migrate
-	docker compose exec php php artisan db:seed
-	docker compose down
+docker compose build
+docker compose run --rm php composer install
+docker compose run --rm php php artisan key:generate
+docker compose run --rm php artisan storage:link
+docker compose up -d
+docker compose exec php php artisan migrate
+docker compose exec php php artisan db:seed
 ```
-После завершения работы команды в консоли можно запустить приложение командой
-`docker compose up` или `docker compose up-d`
 
-Для запуска очереди выполнить команду в отдельной консоли `docker compose exec php php artisan queue:work`.
+Для запуска очереди выполнить команду в отдельной консоли
+```docker compose exec php php artisan queue:work```
 Команду можно выполнить в стольки консолях, сколько требуется экземпляров приложения работающих параллельно.
 
-### Swagger
+## Swagger
 Сваггер доступен по ссылке `http://localhost:8000` по умолчанию, либо по указанному в `.env` порту
 
-### Консольные команды
+## Консольные команды
 
-#### Сбор данных с сайта ЦБ
-`docker compose exec php php artisan app:grab-currencies` выполнить сбор данных за 180 дней
-`docker compose exec php php artisan app:grab-currencies --days={количество дней}` если требуется другое количество дней
+### Сбор данных с сайта ЦБ
+`docker compose exec php php artisan app:grab-currencies` выполнить сбор данных за 180 дней.
 
-Собирает курс валют за указанное количество дней и сохраняет в базу данных в таблицу `currencies_rate_history`
+`docker compose exec php php artisan app:grab-currencies --days={количество дней}` если требуется другое количество дней.
